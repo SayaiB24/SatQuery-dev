@@ -1,0 +1,170 @@
+{
+  "sessionId": "sq-74227bc0",
+  "answerText": "Fused Optical-SAR analysis confirms a total of 3 maritime targets in the harbor. [Agreement]: 1 vessels verified concurrently across both high-resolution Optical RGB and SAR radar backscatter peaks (Berths 4 & 7). [SAR Penetration]: 1 vessel detected exclusively via SAR C-band microwave penetration beneath dense 42% optical cloud deck at channel coordinate (x:12.2%, y:64.8%). [Optical Context]: 1 inland logistics area resolved exclusively in multispectral optical bands. Cross-modal synthesis confirms all targets with zero false-alarm artifacts.",
+  "evidence": {
+    "boxes": [
+      {
+        "id": "box_vessel_01",
+        "label": "Cargo Vessel (Container Berth 4)",
+        "xLeft": 22.5,
+        "yTop": 14.2,
+        "xRight": 44.1,
+        "yBottom": 32.8,
+        "theta": 0.0,
+        "score": 0.97,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_vessel_02",
+        "label": "Bulk Carrier Vessel (Berth 7)",
+        "xLeft": 51.0,
+        "yTop": 38.4,
+        "xRight": 73.6,
+        "yBottom": 57.2,
+        "theta": 0.0,
+        "score": 0.93,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_vessel_03",
+        "label": "Patrol / Service Tugboat",
+        "xLeft": 12.2,
+        "yTop": 64.8,
+        "xRight": 26.4,
+        "yBottom": 78.5,
+        "theta": 0.0,
+        "score": 0.89,
+        "isPrimary": false,
+        "normalizedTo100": true
+      }
+    ],
+    "masks": [],
+    "regionTags": [
+      {
+        "region": "North Pier / Mooring Slip",
+        "tag": "agreement",
+        "score": 0.96,
+        "description": "Optical RGB and SAR double-bounce radar return both clearly confirm 2 large maritime vessels moored at berths 4 and 7."
+      },
+      {
+        "region": "Cloud-Occluded East Channel",
+        "tag": "sar_only",
+        "score": 0.91,
+        "description": "Dense 42% cumulus cloud cover in Optical RGB is fully penetrated by SAR C-band microwave backscatter, discovering 1 additional cargo vessel."
+      },
+      {
+        "region": "Inland Container Staging Yard",
+        "tag": "optical_only",
+        "score": 0.88,
+        "description": "Color-coded TEU shipping containers and painted taxiway lane markers resolved only via Optical high-resolution multispectral bands."
+      }
+    ],
+    "overlayImageUrls": [
+      "/storage/sessions/sq-74227bc0/inputs/cartosat_optical_harbor.png",
+      "/storage/sessions/sq-74227bc0/inputs/risat_sar_cband_harbor.png"
+    ]
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Quantity discrepancy flagged: Text claims 3 targets but 6 spatial features localized.",
+    "details": {
+      "geometryCheck": true,
+      "crossToolAgreement": false,
+      "quantityDiscrepancy": true
+    }
+  },
+  "executionTrace": {
+    "sessionId": "sq-74227bc0",
+    "selectedTaskType": "fusion",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "Detect all naval vessels in the harbor under cloud cover"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'Detect all naval vessels in the harbor under cloud cover'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 2,
+          "input_images": [
+            "cartosat_optical_harbor.png",
+            "risat_sar_cband_harbor.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'fusion'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "SpecialistRouter",
+        "adapterIdOrVersion": "router_dispatch_v1.0",
+        "parametersUsed": {
+          "task_type": "fusion"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Dispatched task 'fusion' to specialist models",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 4,
+        "component": "VerifierNode",
+        "adapterIdOrVersion": "spatial_consistency_verifier_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Audited 3 spatial features, geometry constraints, and cross-tool consistency",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 5,
+        "component": "ConfidenceScorer",
+        "adapterIdOrVersion": "bayesian_confidence_scorer_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Calculated confidence tier based on verifier flags and sensor metadata",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 6,
+        "component": "ResponseComposer",
+        "adapterIdOrVersion": null,
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Assembled final grounded JSON payload with full audit trace",
+        "status": "completed"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Quantity discrepancy flagged: Text claims 3 targets but 6 spatial features localized.",
+    "rejection": null
+  },
+  "reportUrl": "/v1/session/sq-74227bc0/report",
+  "rejected": false,
+  "rejectionReason": null,
+  "rejectionDetails": null,
+  "taskSpec": {
+    "taskType": "fusion",
+    "status": "resolved",
+    "targetObject": "maritime vessels",
+    "questionText": "Detect all naval vessels in the harbor under cloud cover",
+    "requiredImageCount": 2,
+    "requiredModalities": [
+      "optical",
+      "sar"
+    ],
+    "requiresTemporalPairing": false,
+    "requestedParameters": null,
+    "intentConfidence": 0.96,
+    "clarifyingQuestion": null
+  }
+}

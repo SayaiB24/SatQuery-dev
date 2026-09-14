@@ -1,0 +1,111 @@
+{
+  "sessionId": "sq-b27f6b50",
+  "answerText": "High-resolution remote sensing image depicts an active deepwater industrial port with 3 prominent circular fuel storage reservoirs, container berths, and supporting intermodal logistics infrastructure.",
+  "evidence": {
+    "boxes": [],
+    "masks": [],
+    "regionTags": null,
+    "overlayImageUrls": [
+      "/storage/sessions/sq-b27f6b50/inputs/Cartosat2S_Scene_Bhopal.tif"
+    ]
+  },
+  "confidence": {
+    "tier": "High",
+    "rationale": "High confidence: Multi-stage geometric bounds, specialist output agreement, and physical sensor parameters fully validated.",
+    "details": {
+      "geometryCheck": true,
+      "crossToolAgreement": true,
+      "quantityDiscrepancy": false
+    }
+  },
+  "executionTrace": {
+    "sessionId": "sq-b27f6b50",
+    "selectedTaskType": "single_caption",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "Describe the land-cover and major objects visible in this image."
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'Describe the land-cover and major objects visible in this image.'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 1,
+          "input_images": [
+            "Cartosat2S_Scene_Bhopal.tif"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'single_caption'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "SpecialistRouter",
+        "adapterIdOrVersion": "router_dispatch_v1.0",
+        "parametersUsed": {
+          "task_type": "single_caption"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Dispatched task 'single_caption' to specialist models",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 4,
+        "component": "VerifierNode",
+        "adapterIdOrVersion": "spatial_consistency_verifier_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Audited 0 spatial features, geometry constraints, and cross-tool consistency",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 5,
+        "component": "ConfidenceScorer",
+        "adapterIdOrVersion": "bayesian_confidence_scorer_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Calculated confidence tier based on verifier flags and sensor metadata",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 6,
+        "component": "ResponseComposer",
+        "adapterIdOrVersion": null,
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Assembled final grounded JSON payload with full audit trace",
+        "status": "completed"
+      }
+    ],
+    "confidenceTier": "High",
+    "confidenceRationale": "High confidence: Multi-stage geometric bounds, specialist output agreement, and physical sensor parameters fully validated.",
+    "rejection": null
+  },
+  "reportUrl": "/v1/session/sq-b27f6b50/report",
+  "rejected": false,
+  "rejectionReason": null,
+  "rejectionDetails": null,
+  "taskSpec": {
+    "taskType": "single_caption",
+    "status": "resolved",
+    "targetObject": null,
+    "questionText": "Describe the land-cover and major objects visible in this image.",
+    "requiredImageCount": 1,
+    "requiredModalities": [
+      "optical"
+    ],
+    "requiresTemporalPairing": false,
+    "requestedParameters": null,
+    "intentConfidence": 0.92,
+    "clarifyingQuestion": null
+  }
+}
