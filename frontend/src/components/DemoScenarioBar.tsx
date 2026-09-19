@@ -71,12 +71,13 @@ export const DemoScenarioBar: React.FC = () => {
                 padding: '10px 14px',
                 borderRadius: 'var(--radius-md)',
                 background: isSelected 
-                  ? (isRejection ? 'rgba(244, 63, 94, 0.18)' : 'rgba(56, 189, 248, 0.18)') 
-                  : 'rgba(255, 255, 255, 0.03)',
+                  ? (isRejection ? 'rgba(225, 29, 72, 0.12)' : 'rgba(2, 132, 199, 0.12)') 
+                  : 'var(--bg-elevated)',
                 border: isSelected
-                  ? (isRejection ? '1px solid rgba(244, 63, 94, 0.6)' : '1px solid rgba(56, 189, 248, 0.6)')
+                  ? (isRejection ? '1px solid rgba(225, 29, 72, 0.5)' : '1px solid rgba(2, 132, 199, 0.5)')
                   : '1px solid var(--border-subtle)',
                 textAlign: 'left',
+                boxShadow: isSelected ? 'var(--shadow-sm)' : 'none',
                 transition: 'all 0.2s ease',
                 cursor: 'pointer'
               }}
@@ -104,7 +105,7 @@ export const DemoScenarioBar: React.FC = () => {
               <span style={{
                 fontSize: 12,
                 fontWeight: 600,
-                color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                color: isSelected ? (isRejection ? 'var(--rose-danger)' : 'var(--cyan-primary)') : 'var(--text-primary)',
                 lineHeight: 1.3
               }}>
                 {scenario.name.split(':')[1]?.trim() || scenario.name}

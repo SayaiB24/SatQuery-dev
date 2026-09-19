@@ -4,10 +4,11 @@ from backend.app.schemas.evidence import EvidenceItem
 from backend.app.schemas.image_metadata import ImageMetadata
 from backend.app.schemas.task_spec import TaskSpec, TaskType
 from backend.app.specialists.base import BaseSpecialist
+from backend.app.specialists.scenario_engine import scenario_engine
 
 
 class VqaCaptionSpecialist(BaseSpecialist):
-    """Specialist adapter for Single-Image VQA and Captioning."""
+    """Scenario-aware Specialist Adapter for Single-Image VQA and Captioning."""
 
     def __init__(self):
         super().__init__(
@@ -26,30 +27,11 @@ class VqaCaptionSpecialist(BaseSpecialist):
         query = task_spec.question_text or ""
         q_lower = query.lower()
 
-        if task_spec.task_type == TaskType.SINGLE_CAPTION:
-            answer = (
-                "High-resolution remote sensing image depicts an active deepwater industrial port "
-                "with 3 prominent circular fuel storage reservoirs, container berths, and supporting "
-                "intermodal logistics infrastructure."
-            )
-            qty_flag = False
-        elif "how many" in q_lower or "count" in q_lower:
-            if "tank" in q_lower:
-                answer = (
-                    "Analysis identifies 3 distinct fuel storage tanks in the terminal complex: "
-                    "2 large circular floating-roof tanks in the central yard and 1 secondary cooling tank."
-                )
-            elif "vessel" in q_lower or "ship" in q_lower:
-                answer = "A total of 3 maritime vessels are identified docked along berths 4 and 7."
-            else:
-                answer = "Quantitative inspection detects 3 primary infrastructure targets within the specified region of interest."
-            qty_flag = True
-        else:
-            answer = (
-                f"Inspection of {images[0].name if images else 'the scene'} confirms operational "
-                f"industrial installations consistent with high-throughput logistical operations."
-            )
-            qty_flag = False
+        # Query scenario engine for realistic remote-sensing output
+        scenario = scenario_engine.get_dynamic_result(query, task_spec.task_type, images)
+        answer = scenario.answer_text
+
+        qty_flag = any(term in q_lower for term in ["how many", "count", "number of", "quantity"])
 
         return EvidenceItem(
             source_specialist=self.name,
@@ -57,7 +39,7 @@ class VqaCaptionSpecialist(BaseSpecialist):
             answer_text=answer,
             boxes=[],
             mask_ref=None,
-            deterministic_pixel_count=None,
+            deterministic_pixel_count=len(scenario.boxes) if qty_flag else None,
             quantity_flag=qty_flag,
             geometry_valid=True,
             quantity_discrepancy=False,

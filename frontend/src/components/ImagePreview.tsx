@@ -19,13 +19,14 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
 
   return (
     <div style={{
-      background: 'rgba(10, 16, 30, 0.9)',
+      background: 'var(--bg-card)',
       border: '1px solid var(--border-medium)',
       borderRadius: 'var(--radius-md)',
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
-      height: '100%'
+      height: '100%',
+      boxShadow: 'var(--shadow-sm)'
     }}>
       {/* Slot Header */}
       <div style={{
@@ -33,7 +34,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '8px 12px',
-        background: 'rgba(255, 255, 255, 0.03)',
+        background: 'var(--bg-elevated)',
         borderBottom: '1px solid var(--border-subtle)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -80,7 +81,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
         position: 'relative',
         width: '100%',
         height: 180,
-        background: '#040711',
+        background: 'var(--bg-canvas)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -141,7 +142,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
       }}>
         <div style={{
           fontWeight: 600,
-          color: '#ffffff',
+          color: 'var(--text-primary)',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis'

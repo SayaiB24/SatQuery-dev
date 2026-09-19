@@ -3,13 +3,14 @@ from typing import Any, Dict, List, Optional
 from backend.app.orchestrator.compatibility_validator import CompatibilityValidator
 from backend.app.orchestrator.confidence_scorer import ConfidenceScorer
 from backend.app.orchestrator.query_interpreter import QueryInterpreter
+from backend.app.orchestrator.response_composer import response_composer
 from backend.app.orchestrator.specialist_router import SpecialistRouter
 from backend.app.orchestrator.trace_emitter import TraceEmitter
 from backend.app.orchestrator.verifier_node import VerifierNode
-from backend.app.schemas.api_models import AnalyzeResponse, Confidence, EvidenceVisuals
+from backend.app.schemas.api_models import AnalyzeResponse
 from backend.app.schemas.image_metadata import ImageMetadata
 from backend.app.schemas.validation import ValidationPass, ValidationRejection
-from backend.app.services.report_service import report_service
+from backend.app.services.overlay_service import overlay_service
 from backend.app.services.storage_service import storage_service
 
 
@@ -22,6 +23,7 @@ class OrchestratorService:
         self.specialist_router = SpecialistRouter()
         self.verifier_node = VerifierNode()
         self.confidence_scorer = ConfidenceScorer()
+        self.response_composer = response_composer
 
     async def run_pipeline(
         self,
@@ -31,6 +33,7 @@ class OrchestratorService:
         session_options: Optional[Dict[str, Any]] = None,
     ) -> AnalyzeResponse:
         session_id = session_id or f"sq-{uuid.uuid4().hex[:8]}"
+        session_dir = storage_service.get_session_dir(session_id)
         trace = TraceEmitter(session_id=session_id)
 
         # Step 1: Query Interpretation
@@ -69,33 +72,18 @@ class OrchestratorService:
                 rejection=validation_result,
             )
 
-            response = AnalyzeResponse(
+            response = self.response_composer.compose_rejection_response(
                 session_id=session_id,
-                answer_text=None,
-                evidence=EvidenceVisuals(),
-                confidence=Confidence(
-                    tier="Low",
-                    rationale="Execution halted: Input imagery does not satisfy satellite remote sensing preconditions.",
-                ),
+                rejection=validation_result,
                 execution_trace=execution_trace,
-                report_url=f"/v1/session/{session_id}/report",
-                rejected=True,
-                rejection_reason=validation_result.human_readable_reason,
-                rejection_details=validation_result,
                 task_spec=task_spec,
             )
             storage_service.store_session_response(session_id, response)
             return response
 
         # Step 3: Specialist Routing & Execution
-        trace.add_step(
-            component="SpecialistRouter",
-            adapter_id="router_dispatch_v1.0",
-            output_summary=f"Dispatched task '{task_spec.task_type.value}' to specialist models",
-            parameters={"task_type": task_spec.task_type.value},
-        )
         items, answer_text, boxes, region_tags = await self.specialist_router.route_and_execute(
-            task_spec, images, session_id
+            task_spec, images, session_id, trace=trace
         )
 
         # Step 4: Verifier Node
@@ -108,11 +96,25 @@ class OrchestratorService:
             task_spec, items
         )
 
-        # Step 5: Confidence Scoring
+        # Step 5: Visual Evidence Overlay Rendering
+        has_change = any("change" in task_spec.task_type.value for _ in [1])
+        overlay_urls, generated_masks = overlay_service.generate_visual_overlays(
+            session_id=session_id,
+            session_dir=session_dir,
+            boxes=boxes,
+            has_change_mask=has_change,
+        )
+        trace.add_step(
+            component="VisualOverlayRenderer",
+            adapter_id="evidence_rasterizer_v1.0",
+            output_summary=f"Rendered {len(overlay_urls)} visual bounding box overlay(s) and {len(generated_masks)} mask layer(s)",
+        )
+
+        # Step 6: Confidence Scoring
         trace.add_step(
             component="ConfidenceScorer",
             adapter_id="bayesian_confidence_scorer_v1.0",
-            output_summary="Calculated confidence tier based on verifier flags and sensor metadata",
+            output_summary="Calculated confidence tier based on verifier flags, sensor parameters, and scenario calibration",
         )
         confidence = self.confidence_scorer.compute(
             task_spec=task_spec,
@@ -123,7 +125,7 @@ class OrchestratorService:
             verifier_rationale=verifier_rationale,
         )
 
-        # Step 6: Response Assembly
+        # Step 7: Response Assembly
         trace.add_step(
             component="ResponseComposer",
             output_summary="Assembled final grounded JSON payload with full audit trace",
@@ -135,24 +137,15 @@ class OrchestratorService:
             rejection=None,
         )
 
-        # Construct image preview URLs
-        preview_urls = [img.preview_url for img in images if img.preview_url]
-
-        response = AnalyzeResponse(
+        response = self.response_composer.compose_success_response(
             session_id=session_id,
             answer_text=answer_text,
-            evidence=EvidenceVisuals(
-                boxes=boxes,
-                masks=["mask_layer_01.png"] if any("change" in task_spec.task_type.value for _ in [1]) else [],
-                region_tags=region_tags if region_tags else None,
-                overlay_image_urls=preview_urls,
-            ),
+            boxes=boxes,
+            masks=generated_masks,
+            region_tags=region_tags,
+            overlay_image_urls=overlay_urls,
             confidence=confidence,
             execution_trace=execution_trace,
-            report_url=f"/v1/session/{session_id}/report",
-            rejected=False,
-            rejection_reason=None,
-            rejection_details=None,
             task_spec=task_spec,
         )
 

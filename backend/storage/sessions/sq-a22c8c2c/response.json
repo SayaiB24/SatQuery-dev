@@ -1,0 +1,102 @@
+{
+  "sessionId": "sq-a22c8c2c",
+  "answerText": null,
+  "evidence": {
+    "boxes": [],
+    "masks": [],
+    "regionTags": null,
+    "overlayImageUrls": []
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Physical precondition check failed: Cross-sensor modality conflict: Bitemporal change detection requires matching sensor physics (Optical-Optical or SAR-SAR). An Optical-SAR pair cannot be validated for physical change.",
+    "details": null
+  },
+  "executionTrace": {
+    "sessionId": "sq-a22c8c2c",
+    "selectedTaskType": "change_vqa",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "What infrastructure changes occurred between 2023 and 2024?"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'What infrastructure changes occurred between 2023 and 2024?'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 2,
+          "input_images": [
+            "optical_base.png",
+            "sar_radar.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'change_vqa'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "PreconditionGate",
+        "adapterIdOrVersion": "rejection_handler_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Analysis terminated: modality_mismatch - Cross-sensor modality conflict: Bitemporal change detection requires matching sensor physics (Optical-Optical or SAR-SAR). An Optical-SAR pair cannot be validated for physical change.",
+        "status": "rejected"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Execution halted by physical precondition validator.",
+    "rejection": {
+      "reasonCode": "modality_mismatch",
+      "humanReadableReason": "Cross-sensor modality conflict: Bitemporal change detection requires matching sensor physics (Optical-Optical or SAR-SAR). An Optical-SAR pair cannot be validated for physical change.",
+      "missingRequirement": "Homogeneous sensor modality pair for differential radiometric analysis.",
+      "suggestedAction": "For Optical-SAR pairs, run a multimodal 'Fusion' query instead (e.g. 'Detect ships under clouds'). For change detection, provide two Optical or two SAR images.",
+      "detectedContext": {
+        "image_1_modality": "optical",
+        "image_2_modality": "sar"
+      },
+      "requiredContext": {
+        "allowed_pairs": "optical+optical, sar+sar"
+      }
+    }
+  },
+  "reportUrl": "/v1/session/sq-a22c8c2c/report",
+  "rejected": true,
+  "rejectionReason": "Cross-sensor modality conflict: Bitemporal change detection requires matching sensor physics (Optical-Optical or SAR-SAR). An Optical-SAR pair cannot be validated for physical change.",
+  "rejectionDetails": {
+    "reasonCode": "modality_mismatch",
+    "humanReadableReason": "Cross-sensor modality conflict: Bitemporal change detection requires matching sensor physics (Optical-Optical or SAR-SAR). An Optical-SAR pair cannot be validated for physical change.",
+    "missingRequirement": "Homogeneous sensor modality pair for differential radiometric analysis.",
+    "suggestedAction": "For Optical-SAR pairs, run a multimodal 'Fusion' query instead (e.g. 'Detect ships under clouds'). For change detection, provide two Optical or two SAR images.",
+    "detectedContext": {
+      "image_1_modality": "optical",
+      "image_2_modality": "sar"
+    },
+    "requiredContext": {
+      "allowed_pairs": "optical+optical, sar+sar"
+    }
+  },
+  "taskSpec": {
+    "taskType": "change_vqa",
+    "status": "resolved",
+    "targetObject": "buildings / infrastructure",
+    "questionText": "What infrastructure changes occurred between 2023 and 2024?",
+    "requiredImageCount": 2,
+    "requiredModalities": [
+      "optical",
+      "optical"
+    ],
+    "requiresTemporalPairing": true,
+    "requestedParameters": null,
+    "intentConfidence": 0.94,
+    "clarifyingQuestion": null
+  }
+}

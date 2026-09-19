@@ -14,10 +14,12 @@ export const ReportDownload: React.FC<ReportDownloadProps> = ({
 
   const handleDownloadJSON = () => {
     setDownloadingFormat('json');
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(response, null, 2));
+    // Try opening backend generated report attachment, with fallback to client json
+    const backendUrl = `http://127.0.0.1:8000/v1/session/${response.sessionId}/report?format=json`;
     const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute('href', dataStr);
+    downloadAnchor.setAttribute('href', backendUrl);
     downloadAnchor.setAttribute('download', `SatQuery_Report_${response.sessionId}.json`);
+    downloadAnchor.setAttribute('target', '_blank');
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -27,25 +29,27 @@ export const ReportDownload: React.FC<ReportDownloadProps> = ({
 
   const handleDownloadPDF = () => {
     setDownloadingFormat('pdf');
-    // For prototype demonstration, generate print view or styled download
-    window.print();
+    // Open backend rendered printable report in new tab or trigger window print
+    const backendReportUrl = `http://127.0.0.1:8000/v1/session/${response.sessionId}/report?format=pdf`;
+    window.open(backendReportUrl, '_blank');
     setTimeout(() => setDownloadingFormat(null), 1500);
   };
 
   return (
     <div style={{
-      background: 'rgba(12, 19, 36, 0.8)',
-      border: '1px solid var(--border-subtle)',
+      background: 'var(--bg-card)',
+      border: '1px solid var(--border-medium)',
       borderRadius: 'var(--radius-md)',
       padding: '16px 20px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       flexWrap: 'wrap',
-      gap: 12
+      gap: 12,
+      boxShadow: 'var(--shadow-sm)'
     }}>
       <div>
-        <h4 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 2px', color: '#ffffff' }}>
+        <h4 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 2px', color: 'var(--text-primary)' }}>
           Downloadable Evidence Report (SPDD §9.6 Parity)
         </h4>
         <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: 0 }}>

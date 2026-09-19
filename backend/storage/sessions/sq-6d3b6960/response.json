@@ -1,0 +1,98 @@
+{
+  "sessionId": "sq-6d3b6960",
+  "answerText": null,
+  "evidence": {
+    "boxes": [],
+    "masks": [],
+    "regionTags": null,
+    "overlayImageUrls": []
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Physical precondition check failed: The query intent is ambiguous or insufficiently specified for remote sensing analysis.",
+    "details": null
+  },
+  "executionTrace": {
+    "sessionId": "sq-6d3b6960",
+    "selectedTaskType": "single_vqa",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "what"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'what'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 1,
+          "input_images": [
+            "optical.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'single_vqa'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "PreconditionGate",
+        "adapterIdOrVersion": "rejection_handler_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Analysis terminated: ambiguous_intent - The query intent is ambiguous or insufficiently specified for remote sensing analysis.",
+        "status": "rejected"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Execution halted by physical precondition validator.",
+    "rejection": {
+      "reasonCode": "ambiguous_intent",
+      "humanReadableReason": "The query intent is ambiguous or insufficiently specified for remote sensing analysis.",
+      "missingRequirement": "Target object, spatial scope, or specific remote sensing question.",
+      "suggestedAction": "Query is underspecified. Please specify targets and intent (e.g., 'Locate all fuel storage tanks' or 'Identify naval vessels under cloud cover').",
+      "detectedContext": {
+        "query": "what"
+      },
+      "requiredContext": {
+        "expected_task": "Unambiguous task specification"
+      }
+    }
+  },
+  "reportUrl": "/v1/session/sq-6d3b6960/report",
+  "rejected": true,
+  "rejectionReason": "The query intent is ambiguous or insufficiently specified for remote sensing analysis.",
+  "rejectionDetails": {
+    "reasonCode": "ambiguous_intent",
+    "humanReadableReason": "The query intent is ambiguous or insufficiently specified for remote sensing analysis.",
+    "missingRequirement": "Target object, spatial scope, or specific remote sensing question.",
+    "suggestedAction": "Query is underspecified. Please specify targets and intent (e.g., 'Locate all fuel storage tanks' or 'Identify naval vessels under cloud cover').",
+    "detectedContext": {
+      "query": "what"
+    },
+    "requiredContext": {
+      "expected_task": "Unambiguous task specification"
+    }
+  },
+  "taskSpec": {
+    "taskType": "single_vqa",
+    "status": "ambiguous",
+    "targetObject": null,
+    "questionText": "what",
+    "requiredImageCount": 1,
+    "requiredModalities": [
+      "optical"
+    ],
+    "requiresTemporalPairing": false,
+    "requestedParameters": null,
+    "intentConfidence": 0.35,
+    "clarifyingQuestion": "Query is underspecified. Please specify targets and intent (e.g., 'Locate all fuel storage tanks' or 'Identify naval vessels under cloud cover')."
+  }
+}

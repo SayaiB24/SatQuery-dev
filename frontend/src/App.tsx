@@ -28,7 +28,9 @@ export const App: React.FC = () => {
           <footer style={{
             borderTop: '1px solid var(--border-subtle)',
             padding: '24px 32px',
-            background: 'rgba(5, 8, 16, 0.95)',
+            background: 'var(--bg-glass)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
             fontSize: 12,
             color: 'var(--text-muted)'
           }}>

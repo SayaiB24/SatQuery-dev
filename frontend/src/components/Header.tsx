@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Satellite, Layers, Activity, Cpu, Sparkles } from 'lucide-react';
+import { Satellite, Layers, Activity, Cpu, Sparkles, Sun, Moon } from 'lucide-react';
 import { useSatQuery } from '../context/SatQueryContext';
 
 export const Header: React.FC = () => {
   const location = useLocation();
   const { results, isAnalyzing } = useSatQuery();
 
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (localStorage.getItem('satquery-theme') as 'light' | 'dark') || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('satquery-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <header style={{
       borderBottom: '1px solid var(--border-subtle)',
-      background: 'rgba(7, 11, 20, 0.85)',
+      background: 'var(--bg-glass)',
       backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      padding: '0 32px'
+      padding: '0 32px',
+      transition: 'background 0.2s ease, border-color 0.2s ease'
     }}>
       <div style={{
         maxWidth: 1440,
@@ -36,7 +51,7 @@ export const Header: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 16px rgba(56, 189, 248, 0.3)'
+              boxShadow: '0 2px 10px rgba(2, 132, 199, 0.3)'
             }}>
               <Satellite size={22} color="#ffffff" />
             </div>
@@ -46,7 +61,7 @@ export const Header: React.FC = () => {
                   fontFamily: 'var(--font-heading)',
                   fontSize: 19,
                   fontWeight: 800,
-                  color: '#ffffff',
+                  color: 'var(--text-primary)',
                   letterSpacing: '-0.03em'
                 }}>
                   SatQuery<span style={{ color: 'var(--cyan-primary)' }}> AI</span>
@@ -71,9 +86,9 @@ export const Header: React.FC = () => {
               borderRadius: 'var(--radius-md)',
               fontSize: 13,
               fontWeight: 500,
-              color: location.pathname === '/' ? '#ffffff' : 'var(--text-secondary)',
-              background: location.pathname === '/' ? 'rgba(56, 189, 248, 0.1)' : 'transparent',
-              border: location.pathname === '/' ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid transparent',
+              color: location.pathname === '/' ? 'var(--cyan-primary)' : 'var(--text-secondary)',
+              background: location.pathname === '/' ? 'rgba(2, 132, 199, 0.1)' : 'transparent',
+              border: location.pathname === '/' ? '1px solid rgba(2, 132, 199, 0.28)' : '1px solid transparent',
               transition: 'all 0.2s ease'
             }}
           >
@@ -90,9 +105,9 @@ export const Header: React.FC = () => {
               borderRadius: 'var(--radius-md)',
               fontSize: 13,
               fontWeight: 600,
-              color: location.pathname === '/analyze' ? '#ffffff' : 'var(--text-secondary)',
-              background: location.pathname === '/analyze' ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
-              border: location.pathname === '/analyze' ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid transparent',
+              color: location.pathname === '/analyze' ? 'var(--cyan-primary)' : 'var(--text-secondary)',
+              background: location.pathname === '/analyze' ? 'rgba(2, 132, 199, 0.12)' : 'transparent',
+              border: location.pathname === '/analyze' ? '1px solid rgba(2, 132, 199, 0.3)' : '1px solid transparent',
               transition: 'all 0.2s ease'
             }}
           >
@@ -110,9 +125,9 @@ export const Header: React.FC = () => {
               borderRadius: 'var(--radius-md)',
               fontSize: 13,
               fontWeight: 500,
-              color: location.pathname === '/results' ? '#ffffff' : 'var(--text-secondary)',
-              background: location.pathname === '/results' ? 'rgba(56, 189, 248, 0.1)' : 'transparent',
-              border: location.pathname === '/results' ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid transparent',
+              color: location.pathname === '/results' ? 'var(--cyan-primary)' : 'var(--text-secondary)',
+              background: location.pathname === '/results' ? 'rgba(2, 132, 199, 0.1)' : 'transparent',
+              border: location.pathname === '/results' ? '1px solid rgba(2, 132, 199, 0.25)' : '1px solid transparent',
               opacity: results || isAnalyzing ? 1 : 0.45,
               pointerEvents: results || isAnalyzing ? 'auto' : 'none',
               transition: 'all 0.2s ease'
@@ -131,20 +146,20 @@ export const Header: React.FC = () => {
           </Link>
         </nav>
 
-        {/* System & Engine Status */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        {/* System, Engine Status & Theme Switcher */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
             gap: 6,
             padding: '5px 12px',
-            background: 'rgba(255, 255, 255, 0.03)',
+            background: 'var(--bg-elevated)',
             borderRadius: 'var(--radius-full)',
             border: '1px solid var(--border-subtle)'
           }}>
             <Cpu size={13} color="var(--cyan-primary)" />
             <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Engine:</span>
-            <span style={{ fontSize: 11, fontWeight: 600, color: '#ffffff' }}>LoRA Multi-Specialist</span>
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-primary)' }}>LoRA Multi-Specialist</span>
           </div>
 
           <div style={{
@@ -161,6 +176,33 @@ export const Header: React.FC = () => {
               {isAnalyzing ? 'ORCHESTRATING' : 'READY'}
             </span>
           </div>
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 36,
+              height: 36,
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-medium)',
+              color: 'var(--text-primary)',
+              boxShadow: 'var(--shadow-sm)',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            {theme === 'light' ? (
+              <Moon size={16} color="var(--indigo-primary)" />
+            ) : (
+              <Sun size={16} color="var(--amber-warning)" />
+            )}
+          </button>
         </div>
       </div>
     </header>

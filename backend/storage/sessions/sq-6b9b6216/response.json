@@ -1,0 +1,218 @@
+{
+  "sessionId": "sq-6b9b6216",
+  "answerText": "Fused Optical-SAR analysis confirms a total of 2 maritime targets in the harbor. [Agreement]: 1 vessels verified concurrently across both high-resolution Optical RGB and SAR radar backscatter peaks (Berths 4 & 7). [SAR Penetration]: 1 vessel detected exclusively via SAR C-band microwave penetration beneath dense 42% optical cloud deck at channel coordinate (x:12.2%, y:64.8%). [Optical Context]: 1 inland logistics area resolved exclusively in multispectral optical bands. Cross-modal synthesis confirms all targets with zero false-alarm artifacts. In addition, temporal analysis demonstrates verified infrastructure growth of +14,200 sq m across the monitored perimeter.",
+  "evidence": {
+    "boxes": [
+      {
+        "id": "box_feat_01",
+        "label": "Primary Detected Structure / Feature",
+        "xLeft": 25.0,
+        "yTop": 25.0,
+        "xRight": 55.0,
+        "yBottom": 55.0,
+        "theta": 0.0,
+        "score": 0.91,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_feat_02",
+        "label": "Secondary Auxiliary Infrastructure",
+        "xLeft": 60.0,
+        "yTop": 40.0,
+        "xRight": 82.0,
+        "yBottom": 70.0,
+        "theta": 0.0,
+        "score": 0.86,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_change_01",
+        "label": "New Pier & Crane Foundation Expansion",
+        "xLeft": 35.0,
+        "yTop": 22.0,
+        "xRight": 62.0,
+        "yBottom": 54.0,
+        "theta": 0.0,
+        "score": 0.95,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_change_02",
+        "label": "Cleared Staging Logistics Lot (+14,200 sq m)",
+        "xLeft": 68.0,
+        "yTop": 45.0,
+        "xRight": 88.5,
+        "yBottom": 72.0,
+        "theta": 0.0,
+        "score": 0.91,
+        "isPrimary": true,
+        "normalizedTo100": true
+      }
+    ],
+    "masks": [
+      "mask_layer_01.png"
+    ],
+    "regionTags": [
+      {
+        "region": "North Pier / Mooring Slip",
+        "tag": "agreement",
+        "score": 0.96,
+        "description": "Optical RGB and SAR double-bounce radar return both clearly confirm 2 large maritime vessels moored at berths 4 and 7."
+      },
+      {
+        "region": "Cloud-Occluded East Channel",
+        "tag": "sar_only",
+        "score": 0.91,
+        "description": "Dense 42% cumulus cloud cover in Optical RGB is fully penetrated by SAR C-band microwave backscatter, discovering 1 additional cargo vessel."
+      },
+      {
+        "region": "Inland Container Staging Yard",
+        "tag": "optical_only",
+        "score": 0.88,
+        "description": "Color-coded TEU shipping containers and painted taxiway lane markers resolved only via Optical high-resolution multispectral bands."
+      }
+    ],
+    "overlayImageUrls": [
+      "/storage/sessions/sq-6b9b6216/inputs/cartosat_optical.png",
+      "/storage/sessions/sq-6b9b6216/inputs/risat_sar_cband.png"
+    ]
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Quantity discrepancy flagged: Text claims 2 targets but 8 spatial features localized.",
+    "details": {
+      "geometryCheck": true,
+      "crossToolAgreement": false,
+      "quantityDiscrepancy": true
+    }
+  },
+  "executionTrace": {
+    "sessionId": "sq-6b9b6216",
+    "selectedTaskType": "fusion_then_change",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "Use optical and SAR to identify built-up areas, then determine whether built-up area increased"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'Use optical and SAR to identify built-up areas, then determine whether built-up area increased'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 2,
+          "input_images": [
+            "cartosat_optical.png",
+            "risat_sar_cband.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'fusion_then_change'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "SpecialistRouter",
+        "adapterIdOrVersion": "compound_dispatch_v1.0",
+        "parametersUsed": {
+          "pipeline": [
+            "fusion_pipeline",
+            "change_vqa_specialist"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Executing 2-stage compound pipeline: Optical-SAR Fusion -> Bitemporal Change Analysis",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 4,
+        "component": "GroundingSpecialist",
+        "adapterIdOrVersion": "grounding_adapter_v1.0",
+        "parametersUsed": {
+          "modality_stream": "cross-modal"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Extracted 2 multi-modal candidate bounding boxes",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 5,
+        "component": "ComplementarityDetector",
+        "adapterIdOrVersion": "infonce_detector_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Tagged 3 multi-sensor regions (agreement, optical_only, sar_only)",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 6,
+        "component": "ChangeVqaSpecialist",
+        "adapterIdOrVersion": "change_vqa_adapter_v1.0",
+        "parametersUsed": {
+          "temporal_alignment": "verified"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated bitemporal differential changes against fused baseline",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 7,
+        "component": "VerifierNode",
+        "adapterIdOrVersion": "spatial_consistency_verifier_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Audited 4 spatial features, geometry constraints, and cross-tool consistency",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 8,
+        "component": "ConfidenceScorer",
+        "adapterIdOrVersion": "bayesian_confidence_scorer_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Calculated confidence tier based on verifier flags and sensor metadata",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 9,
+        "component": "ResponseComposer",
+        "adapterIdOrVersion": null,
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Assembled final grounded JSON payload with full audit trace",
+        "status": "completed"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Quantity discrepancy flagged: Text claims 2 targets but 8 spatial features localized.",
+    "rejection": null
+  },
+  "reportUrl": "/v1/session/sq-6b9b6216/report",
+  "rejected": false,
+  "rejectionReason": null,
+  "rejectionDetails": null,
+  "taskSpec": {
+    "taskType": "fusion_then_change",
+    "status": "resolved",
+    "targetObject": "infrastructure features",
+    "questionText": "Use optical and SAR to identify built-up areas, then determine whether built-up area increased",
+    "requiredImageCount": 2,
+    "requiredModalities": [
+      "optical",
+      "sar"
+    ],
+    "requiresTemporalPairing": true,
+    "requestedParameters": null,
+    "intentConfidence": 0.96,
+    "clarifyingQuestion": null
+  }
+}

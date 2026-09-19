@@ -9,7 +9,14 @@ class MetadataService:
 
     def inspect_file(self, file_path: str, filename: str, index: int = 1) -> ImageMetadata:
         ext = filename.split(".")[-1].lower() if "." in filename else "png"
-        format_type = "geotiff" if ext in ["tif", "tiff"] else ("jpeg" if ext in ["jpg", "jpeg"] else "png")
+        if ext in ["tif", "tiff"]:
+            format_type = "geotiff"
+        elif ext in ["jpg", "jpeg"]:
+            format_type = "jpeg"
+        elif ext == "png":
+            format_type = "png"
+        else:
+            format_type = ext
 
         # Modality detection heuristics per SPDD §4.2
         lower_name = filename.lower()

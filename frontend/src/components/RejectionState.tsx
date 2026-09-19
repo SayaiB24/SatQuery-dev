@@ -16,11 +16,11 @@ export const RejectionState: React.FC<RejectionStateProps> = ({ rejection }) => 
     <div style={{
       maxWidth: 900,
       margin: '0 auto 32px',
-      background: 'rgba(24, 14, 24, 0.92)',
-      border: '1px solid rgba(244, 63, 94, 0.45)',
+      background: 'var(--bg-card)',
+      border: '1px solid rgba(225, 29, 72, 0.35)',
       borderRadius: 'var(--radius-lg)',
       padding: 32,
-      boxShadow: '0 16px 48px rgba(244, 63, 94, 0.18)'
+      boxShadow: 'var(--shadow-md)'
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
@@ -28,17 +28,17 @@ export const RejectionState: React.FC<RejectionStateProps> = ({ rejection }) => 
           width: 48,
           height: 48,
           borderRadius: '50%',
-          background: 'rgba(244, 63, 94, 0.15)',
+          background: 'rgba(225, 29, 72, 0.12)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: '1px solid rgba(244, 63, 94, 0.4)'
+          border: '1px solid rgba(225, 29, 72, 0.3)'
         }}>
           <ShieldAlert size={26} color="var(--rose-danger)" />
         </div>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 800, color: '#ffffff', margin: 0 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
               Physical Input Precondition Rejection
             </h3>
             <span className="badge badge-rose" style={{ fontSize: 10, fontFamily: 'var(--font-mono)' }}>
@@ -53,13 +53,13 @@ export const RejectionState: React.FC<RejectionStateProps> = ({ rejection }) => 
 
       {/* Human Readable Explanation */}
       <div style={{
-        background: 'rgba(0, 0, 0, 0.4)',
+        background: 'rgba(225, 29, 72, 0.06)',
         borderLeft: '4px solid var(--rose-danger)',
         padding: '16px 20px',
         borderRadius: '0 var(--radius-md) var(--radius-md) 0',
         fontSize: 14,
         lineHeight: 1.6,
-        color: '#ffffff',
+        color: 'var(--text-primary)',
         marginBottom: 24
       }}>
         {rejection.humanReadableReason}
@@ -76,8 +76,8 @@ export const RejectionState: React.FC<RejectionStateProps> = ({ rejection }) => 
         <div style={{
           padding: '14px 16px',
           borderRadius: 'var(--radius-md)',
-          background: 'rgba(244, 63, 94, 0.05)',
-          border: '1px solid rgba(244, 63, 94, 0.2)'
+          background: 'rgba(225, 29, 72, 0.05)',
+          border: '1px solid rgba(225, 29, 72, 0.2)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8, color: 'var(--rose-danger)', fontWeight: 700, fontSize: 12 }}>
             <XCircle size={14} />
@@ -100,8 +100,8 @@ export const RejectionState: React.FC<RejectionStateProps> = ({ rejection }) => 
         <div style={{
           padding: '14px 16px',
           borderRadius: 'var(--radius-md)',
-          background: 'rgba(16, 185, 129, 0.05)',
-          border: '1px solid rgba(16, 185, 129, 0.2)'
+          background: 'rgba(5, 150, 105, 0.05)',
+          border: '1px solid rgba(5, 150, 105, 0.2)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8, color: 'var(--emerald-success)', fontWeight: 700, fontSize: 12 }}>
             <CheckCircle2 size={14} />
@@ -126,7 +126,7 @@ export const RejectionState: React.FC<RejectionStateProps> = ({ rejection }) => 
         <div style={{
           padding: '14px 18px',
           borderRadius: 'var(--radius-md)',
-          background: 'rgba(255, 255, 255, 0.03)',
+          background: 'var(--bg-elevated)',
           border: '1px solid var(--border-subtle)',
           marginBottom: 24
         }}>

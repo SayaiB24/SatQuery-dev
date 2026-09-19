@@ -13,8 +13,9 @@ export const ProcessingStatus: React.FC = () => {
     <div style={{
       position: 'fixed',
       inset: 0,
-      background: 'rgba(5, 8, 16, 0.85)',
+      background: 'rgba(15, 23, 42, 0.6)',
       backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -24,11 +25,11 @@ export const ProcessingStatus: React.FC = () => {
       <div style={{
         maxWidth: 680,
         width: '100%',
-        background: 'rgba(13, 20, 38, 0.95)',
+        background: 'var(--bg-surface)',
         border: '1px solid var(--border-medium)',
         borderRadius: 'var(--radius-lg)',
         padding: 32,
-        boxShadow: '0 24px 60px rgba(0, 0, 0, 0.8)'
+        boxShadow: 'var(--shadow-lg)'
       }}>
         {/* Header */}
         <div style={{
@@ -44,7 +45,7 @@ export const ProcessingStatus: React.FC = () => {
               width: 36,
               height: 36,
               borderRadius: 'var(--radius-md)',
-              background: 'rgba(56, 189, 248, 0.15)',
+              background: 'rgba(2, 132, 199, 0.12)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -52,7 +53,7 @@ export const ProcessingStatus: React.FC = () => {
               <Terminal size={20} color="var(--cyan-primary)" />
             </div>
             <div>
-              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
                 Agentic Orchestration Pipeline
               </h3>
               <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>
@@ -86,11 +87,11 @@ export const ProcessingStatus: React.FC = () => {
                   padding: '10px 14px',
                   borderRadius: 'var(--radius-md)',
                   background: isCurrent 
-                    ? 'rgba(56, 189, 248, 0.1)' 
-                    : (isCompleted ? 'rgba(255, 255, 255, 0.02)' : 'transparent'),
+                    ? 'rgba(2, 132, 199, 0.1)' 
+                    : (isCompleted ? 'var(--bg-elevated)' : 'transparent'),
                   border: isCurrent 
-                    ? '1px solid rgba(56, 189, 248, 0.35)' 
-                    : (isCompleted ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid transparent'),
+                    ? '1px solid rgba(2, 132, 199, 0.35)' 
+                    : (isCompleted ? '1px solid var(--border-subtle)' : '1px solid transparent'),
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -115,7 +116,7 @@ export const ProcessingStatus: React.FC = () => {
                     <span style={{
                       fontSize: 13,
                       fontWeight: 600,
-                      color: isCurrent ? '#ffffff' : (isCompleted ? 'var(--text-primary)' : 'var(--text-muted)')
+                      color: isCurrent ? 'var(--cyan-primary)' : (isCompleted ? 'var(--text-primary)' : 'var(--text-muted)')
                     }}>
                       {step.index}. {step.label}
                     </span>

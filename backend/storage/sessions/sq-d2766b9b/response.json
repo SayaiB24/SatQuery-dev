@@ -1,0 +1,157 @@
+{
+  "sessionId": "sq-d2766b9b",
+  "answerText": "Analysis identifies 3 distinct fuel storage tanks in the terminal complex: 2 large circular floating-roof tanks in the central yard and 1 secondary cooling tank.",
+  "evidence": {
+    "boxes": [
+      {
+        "id": "box_tank_01",
+        "label": "Fuel Storage Tank (Floating Roof)",
+        "xLeft": 18.4,
+        "yTop": 24.1,
+        "xRight": 34.8,
+        "yBottom": 41.5,
+        "theta": 0.0,
+        "score": 0.96,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_tank_02",
+        "label": "Fuel Storage Tank (Fixed Roof)",
+        "xLeft": 42.1,
+        "yTop": 28.5,
+        "xRight": 58.2,
+        "yBottom": 45.9,
+        "theta": 0.0,
+        "score": 0.94,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_tank_03",
+        "label": "Industrial Tank (Cooling / Secondary)",
+        "xLeft": 65.0,
+        "yTop": 52.0,
+        "xRight": 81.2,
+        "yBottom": 69.4,
+        "theta": 0.0,
+        "score": 0.88,
+        "isPrimary": true,
+        "normalizedTo100": true
+      }
+    ],
+    "masks": [],
+    "regionTags": null,
+    "overlayImageUrls": [
+      "/storage/sessions/sq-d2766b9b/inputs/optical_terminal.png"
+    ]
+  },
+  "confidence": {
+    "tier": "High",
+    "rationale": "High confidence: Multi-stage geometric bounds, specialist output agreement, and physical sensor parameters fully validated.",
+    "details": {
+      "geometryCheck": true,
+      "crossToolAgreement": true,
+      "quantityDiscrepancy": false
+    }
+  },
+  "executionTrace": {
+    "sessionId": "sq-d2766b9b",
+    "selectedTaskType": "single_vqa",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "How many fuel storage tanks are visible in the terminal?"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'How many fuel storage tanks are visible in the terminal?'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 1,
+          "input_images": [
+            "optical_terminal.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'single_vqa'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "VqaCaptionSpecialist",
+        "adapterIdOrVersion": "vqa_caption_adapter_v1.0",
+        "parametersUsed": {
+          "task_type": "single_vqa"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Generated grounded natural language description of satellite scene",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 4,
+        "component": "GroundingSpecialist",
+        "adapterIdOrVersion": "grounding_adapter_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Localised 3 target features to verify quantitative count",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 5,
+        "component": "VerifierNode",
+        "adapterIdOrVersion": "spatial_consistency_verifier_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Audited 3 spatial features, geometry constraints, and cross-tool consistency",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 6,
+        "component": "ConfidenceScorer",
+        "adapterIdOrVersion": "bayesian_confidence_scorer_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Calculated confidence tier based on verifier flags and sensor metadata",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 7,
+        "component": "ResponseComposer",
+        "adapterIdOrVersion": null,
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Assembled final grounded JSON payload with full audit trace",
+        "status": "completed"
+      }
+    ],
+    "confidenceTier": "High",
+    "confidenceRationale": "High confidence: Multi-stage geometric bounds, specialist output agreement, and physical sensor parameters fully validated.",
+    "rejection": null
+  },
+  "reportUrl": "/v1/session/sq-d2766b9b/report",
+  "rejected": false,
+  "rejectionReason": null,
+  "rejectionDetails": null,
+  "taskSpec": {
+    "taskType": "single_vqa",
+    "status": "resolved",
+    "targetObject": "fuel storage tanks",
+    "questionText": "How many fuel storage tanks are visible in the terminal?",
+    "requiredImageCount": 1,
+    "requiredModalities": [
+      "optical"
+    ],
+    "requiresTemporalPairing": false,
+    "requestedParameters": null,
+    "intentConfidence": 0.9,
+    "clarifyingQuestion": null
+  }
+}

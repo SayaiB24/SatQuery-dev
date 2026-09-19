@@ -46,7 +46,7 @@ export const ValidationMessage: React.FC<ValidationMessageProps> = ({
     }}>
       <div style={{ marginTop: 2 }}>{styles.icon}</div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: '#ffffff' }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
           {message}
         </div>
         {details && (

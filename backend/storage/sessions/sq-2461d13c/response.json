@@ -1,0 +1,100 @@
+{
+  "sessionId": "sq-2461d13c",
+  "answerText": null,
+  "evidence": {
+    "boxes": [],
+    "masks": [],
+    "regionTags": null,
+    "overlayImageUrls": []
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Physical precondition check failed: Raster format 'bmp' is not supported by SatQuery AI.",
+    "details": null
+  },
+  "executionTrace": {
+    "sessionId": "sq-2461d13c",
+    "selectedTaskType": "single_grounding",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "Locate fuel tanks"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'Locate fuel tanks'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 1,
+          "input_images": [
+            "image.bmp"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'single_grounding'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "PreconditionGate",
+        "adapterIdOrVersion": "rejection_handler_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Analysis terminated: unsupported_format - Raster format 'bmp' is not supported by SatQuery AI.",
+        "status": "rejected"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Execution halted by physical precondition validator.",
+    "rejection": {
+      "reasonCode": "unsupported_format",
+      "humanReadableReason": "Raster format 'bmp' is not supported by SatQuery AI.",
+      "missingRequirement": "Valid remote sensing image format: GeoTIFF, TIFF, PNG, or JPEG.",
+      "suggestedAction": "Convert raster to standard GeoTIFF or PNG format prior to analysis.",
+      "detectedContext": {
+        "file_format": "bmp",
+        "filename": "image.bmp"
+      },
+      "requiredContext": {
+        "supported_formats": "geotiff, tiff, png, jpeg"
+      }
+    }
+  },
+  "reportUrl": "/v1/session/sq-2461d13c/report",
+  "rejected": true,
+  "rejectionReason": "Raster format 'bmp' is not supported by SatQuery AI.",
+  "rejectionDetails": {
+    "reasonCode": "unsupported_format",
+    "humanReadableReason": "Raster format 'bmp' is not supported by SatQuery AI.",
+    "missingRequirement": "Valid remote sensing image format: GeoTIFF, TIFF, PNG, or JPEG.",
+    "suggestedAction": "Convert raster to standard GeoTIFF or PNG format prior to analysis.",
+    "detectedContext": {
+      "file_format": "bmp",
+      "filename": "image.bmp"
+    },
+    "requiredContext": {
+      "supported_formats": "geotiff, tiff, png, jpeg"
+    }
+  },
+  "taskSpec": {
+    "taskType": "single_grounding",
+    "status": "resolved",
+    "targetObject": "fuel storage tanks",
+    "questionText": "Locate fuel tanks",
+    "requiredImageCount": 1,
+    "requiredModalities": [
+      "optical"
+    ],
+    "requiresTemporalPairing": false,
+    "requestedParameters": null,
+    "intentConfidence": 0.95,
+    "clarifyingQuestion": null
+  }
+}

@@ -50,11 +50,12 @@ export const CapabilityHints: React.FC = () => {
 
   return (
     <div style={{
-      background: 'rgba(10, 16, 30, 0.65)',
-      border: '1px solid var(--border-subtle)',
+      background: 'var(--bg-card)',
+      border: '1px solid var(--border-medium)',
       borderRadius: 'var(--radius-md)',
       padding: '14px 18px',
-      marginBottom: 24
+      marginBottom: 24,
+      boxShadow: 'var(--shadow-sm)'
     }}>
       <div style={{
         display: 'flex',
@@ -66,7 +67,7 @@ export const CapabilityHints: React.FC = () => {
           Precondition Matrix & Capability Readiness
         </span>
         <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>
-          Active Inputs: <strong style={{ color: '#ffffff' }}>{(image1 ? 1 : 0) + (image2 ? 1 : 0)} image(s)</strong>
+          Active Inputs: <strong style={{ color: 'var(--text-primary)' }}>{(image1 ? 1 : 0) + (image2 ? 1 : 0)} image(s)</strong>
         </span>
       </div>
 
@@ -84,8 +85,8 @@ export const CapabilityHints: React.FC = () => {
               gap: 8,
               padding: '8px 12px',
               borderRadius: 'var(--radius-sm)',
-              background: cap.enabled ? 'rgba(16, 185, 129, 0.05)' : 'rgba(255, 255, 255, 0.02)',
-              border: cap.enabled ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid var(--border-subtle)',
+              background: cap.enabled ? 'rgba(5, 150, 105, 0.08)' : 'var(--bg-elevated)',
+              border: cap.enabled ? '1px solid rgba(5, 150, 105, 0.25)' : '1px solid var(--border-subtle)',
               opacity: cap.enabled ? 1 : 0.45,
               transition: 'all 0.2s ease'
             }}
@@ -99,7 +100,7 @@ export const CapabilityHints: React.FC = () => {
 
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: cap.enabled ? '#ffffff' : 'var(--text-secondary)' }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: cap.enabled ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
                   {cap.title}
                 </span>
                 {cap.enabled ? (

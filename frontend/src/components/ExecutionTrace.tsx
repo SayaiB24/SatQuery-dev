@@ -17,11 +17,12 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = ({
 
   return (
     <div style={{
-      background: 'rgba(10, 16, 30, 0.85)',
+      background: 'var(--bg-card)',
       border: '1px solid var(--border-medium)',
       borderRadius: 'var(--radius-lg)',
       overflow: 'hidden',
-      marginBottom: 24
+      marginBottom: 24,
+      boxShadow: 'var(--shadow-md)'
     }}>
       {/* Trace Header / Toggle Bar */}
       <div
@@ -31,7 +32,7 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = ({
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '14px 20px',
-          background: 'rgba(255, 255, 255, 0.02)',
+          background: 'var(--bg-elevated)',
           cursor: 'pointer',
           borderBottom: isExpanded ? '1px solid var(--border-subtle)' : 'none'
         }}
@@ -40,7 +41,7 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = ({
           <Terminal size={16} color="var(--cyan-primary)" />
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <h4 style={{ fontSize: 13, fontWeight: 700, margin: 0, color: '#ffffff' }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
                 Auditable Execution Trace
               </h4>
               <span className="badge badge-indigo" style={{ fontSize: 10 }}>
@@ -84,8 +85,9 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = ({
                     flexDirection: 'column',
                     padding: '12px 14px',
                     borderRadius: 'var(--radius-sm)',
-                    background: isRejected ? 'rgba(244, 63, 94, 0.08)' : 'rgba(0, 0, 0, 0.3)',
-                    border: isRejected ? '1px solid rgba(244, 63, 94, 0.3)' : '1px solid var(--border-subtle)',
+                    background: isRejected ? 'rgba(225, 29, 72, 0.08)' : 'var(--bg-surface)',
+                    border: isRejected ? '1px solid rgba(225, 29, 72, 0.3)' : '1px solid var(--border-subtle)',
+                    boxShadow: 'var(--shadow-sm)',
                     gap: 6
                   }}
                 >
@@ -101,7 +103,7 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = ({
                         width: 20,
                         height: 20,
                         borderRadius: '50%',
-                        background: isRejected ? 'rgba(244, 63, 94, 0.2)' : 'rgba(56, 189, 248, 0.15)',
+                        background: isRejected ? 'rgba(225, 29, 72, 0.15)' : 'rgba(2, 132, 199, 0.12)',
                         color: isRejected ? 'var(--rose-danger)' : 'var(--cyan-primary)',
                         display: 'flex',
                         alignItems: 'center',
@@ -116,7 +118,7 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = ({
                         fontSize: 12,
                         fontWeight: 700,
                         fontFamily: 'var(--font-mono)',
-                        color: isRejected ? 'var(--rose-danger)' : '#ffffff'
+                        color: isRejected ? 'var(--rose-danger)' : 'var(--text-primary)'
                       }}>
                         {step.component}
                       </span>
@@ -169,9 +171,10 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = ({
                         <span
                           key={k}
                           style={{
-                            background: 'rgba(255, 255, 255, 0.04)',
+                            background: 'var(--bg-elevated)',
                             padding: '1px 6px',
-                            borderRadius: 3
+                            borderRadius: 3,
+                            border: '1px solid var(--border-subtle)'
                           }}
                         >
                           {k}={typeof v === 'object' ? JSON.stringify(v) : String(v)}

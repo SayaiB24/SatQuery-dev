@@ -32,12 +32,12 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
 
   return (
     <div style={{
-      background: 'rgba(12, 19, 36, 0.9)',
+      background: 'var(--bg-card)',
       border: '1px solid var(--border-medium)',
       borderRadius: 'var(--radius-lg)',
       overflow: 'hidden',
       marginBottom: 24,
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)'
+      boxShadow: 'var(--shadow-md)'
     }}>
       {/* Viewer Controls Toolbar */}
       <div style={{
@@ -45,14 +45,14 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '12px 18px',
-        background: 'rgba(255, 255, 255, 0.02)',
+        background: 'var(--bg-elevated)',
         borderBottom: '1px solid var(--border-subtle)',
         flexWrap: 'wrap',
         gap: 12
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Layers size={16} color="var(--cyan-primary)" />
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#ffffff' }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
             Visual Evidence Canvas
           </span>
 
@@ -60,7 +60,8 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
           {isDualView && (
             <div style={{
               display: 'flex',
-              background: 'rgba(0, 0, 0, 0.4)',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
               borderRadius: 'var(--radius-md)',
               padding: 2,
               marginLeft: 8
@@ -73,7 +74,7 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
                   fontSize: 11,
                   fontWeight: 600,
                   background: activeImageTab === 'primary' ? 'var(--cyan-primary)' : 'transparent',
-                  color: activeImageTab === 'primary' ? '#000000' : 'var(--text-secondary)'
+                  color: activeImageTab === 'primary' ? '#ffffff' : 'var(--text-secondary)'
                 }}
               >
                 {primaryLabel}
@@ -167,7 +168,7 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
         position: 'relative',
         width: '100%',
         minHeight: 440,
-        background: '#040711',
+        background: 'var(--bg-canvas)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -215,10 +216,10 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
                 height: `${box.yBottom - box.yTop}%`,
                 border: isHovered 
                   ? '2px solid #ffffff' 
-                  : (isPrimary ? '2px solid var(--cyan-primary)' : '2px dashed #38bdf8'),
+                  : (isPrimary ? '2px solid var(--cyan-primary)' : '2px dashed #0284c7'),
                 background: isHovered 
-                  ? 'rgba(56, 189, 248, 0.25)' 
-                  : (isPrimary ? 'rgba(56, 189, 248, 0.12)' : 'rgba(56, 189, 248, 0.06)'),
+                  ? 'rgba(2, 132, 199, 0.25)' 
+                  : (isPrimary ? 'rgba(2, 132, 199, 0.12)' : 'rgba(2, 132, 199, 0.06)'),
                 boxShadow: isHovered ? '0 0 16px var(--cyan-glow)' : 'none',
                 transition: 'all 0.15s ease',
                 cursor: 'pointer',
@@ -230,8 +231,8 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
                 position: 'absolute',
                 top: -24,
                 left: 0,
-                background: isHovered ? '#ffffff' : 'rgba(7, 11, 20, 0.92)',
-                color: isHovered ? '#000000' : (isPrimary ? 'var(--cyan-primary)' : '#94a3b8'),
+                background: isHovered ? 'var(--cyan-primary)' : 'var(--bg-surface)',
+                color: isHovered ? '#ffffff' : 'var(--text-primary)',
                 border: `1px solid ${isPrimary ? 'var(--cyan-primary)' : 'var(--border-medium)'}`,
                 padding: '2px 8px',
                 borderRadius: 4,
@@ -241,7 +242,7 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 gap: 4,
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
+                boxShadow: 'var(--shadow-sm)'
               }}>
                 <span>{box.label || `Region ${idx + 1}`}</span>
                 {box.score && (
@@ -259,7 +260,7 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
       {showRegions && regionTags.length > 0 && (
         <div style={{
           padding: '14px 18px',
-          background: 'rgba(255, 255, 255, 0.02)',
+          background: 'var(--bg-elevated)',
           borderTop: '1px solid var(--border-subtle)'
         }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 8 }}>
@@ -281,12 +282,13 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
                   style={{
                     padding: '8px 12px',
                     borderRadius: 'var(--radius-sm)',
-                    background: 'rgba(0, 0, 0, 0.3)',
-                    border: '1px solid var(--border-subtle)'
+                    background: 'var(--bg-surface)',
+                    border: '1px solid var(--border-subtle)',
+                    boxShadow: 'var(--shadow-sm)'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: '#ffffff' }}>{tag.region}</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>{tag.region}</span>
                     <span className={`badge ${config.badge}`} style={{ fontSize: 9 }}>
                       {config.label}
                     </span>

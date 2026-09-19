@@ -1,0 +1,150 @@
+{
+  "sessionId": "sq-b318aa34",
+  "answerText": "Bitemporal change detection with visual grounding identified 2 major infrastructure modifications: 1) New Pier & Crane Foundation Expansion (x:35.0%, y:22.0% to x:62.0%, y:54.0%), and 2) Cleared Logistics Staging Lot (+14,200 sq m, x:68.0%, y:45.0% to x:88.5%, y:72.0%).",
+  "evidence": {
+    "boxes": [
+      {
+        "id": "box_feat_01",
+        "label": "Primary Detected Structure / Feature",
+        "xLeft": 25.0,
+        "yTop": 25.0,
+        "xRight": 55.0,
+        "yBottom": 55.0,
+        "theta": 0.0,
+        "score": 0.91,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_feat_02",
+        "label": "Secondary Auxiliary Infrastructure",
+        "xLeft": 60.0,
+        "yTop": 40.0,
+        "xRight": 82.0,
+        "yBottom": 70.0,
+        "theta": 0.0,
+        "score": 0.86,
+        "isPrimary": true,
+        "normalizedTo100": true
+      }
+    ],
+    "masks": [
+      "mask_layer_01.png"
+    ],
+    "regionTags": null,
+    "overlayImageUrls": [
+      "/storage/sessions/sq-b318aa34/inputs/optical_t1.png",
+      "/storage/sessions/sq-b318aa34/inputs/optical_t2.png"
+    ]
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Quantity discrepancy flagged: Text claims 2 targets but 4 spatial features localized.",
+    "details": {
+      "geometryCheck": true,
+      "crossToolAgreement": false,
+      "quantityDiscrepancy": true
+    }
+  },
+  "executionTrace": {
+    "sessionId": "sq-b318aa34",
+    "selectedTaskType": "change_and_grounding",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "Locate and highlight all new infrastructure built between 2023 and 2024"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'Locate and highlight all new infrastructure built between 2023 and 2024'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 2,
+          "input_images": [
+            "optical_t1.png",
+            "optical_t2.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'change_and_grounding'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "ChangeVqaSpecialist",
+        "adapterIdOrVersion": "change_vqa_adapter_v1.0",
+        "parametersUsed": {
+          "task_type": "change_and_grounding"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Computed differential change: 158400 pixels changed",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 4,
+        "component": "GroundingSpecialist",
+        "adapterIdOrVersion": "grounding_adapter_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Bound 2 changed region bounding boxes",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 5,
+        "component": "VerifierNode",
+        "adapterIdOrVersion": "spatial_consistency_verifier_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Audited 2 spatial features, geometry constraints, and cross-tool consistency",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 6,
+        "component": "ConfidenceScorer",
+        "adapterIdOrVersion": "bayesian_confidence_scorer_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Calculated confidence tier based on verifier flags and sensor metadata",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 7,
+        "component": "ResponseComposer",
+        "adapterIdOrVersion": null,
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Assembled final grounded JSON payload with full audit trace",
+        "status": "completed"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Quantity discrepancy flagged: Text claims 2 targets but 4 spatial features localized.",
+    "rejection": null
+  },
+  "reportUrl": "/v1/session/sq-b318aa34/report",
+  "rejected": false,
+  "rejectionReason": null,
+  "rejectionDetails": null,
+  "taskSpec": {
+    "taskType": "change_and_grounding",
+    "status": "resolved",
+    "targetObject": "buildings / infrastructure",
+    "questionText": "Locate and highlight all new infrastructure built between 2023 and 2024",
+    "requiredImageCount": 2,
+    "requiredModalities": [
+      "optical",
+      "optical"
+    ],
+    "requiresTemporalPairing": true,
+    "requestedParameters": null,
+    "intentConfidence": 0.94,
+    "clarifyingQuestion": null
+  }
+}

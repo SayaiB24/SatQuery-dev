@@ -1,4 +1,5 @@
 from typing import List, Tuple, Union
+from backend.app.config import MIN_FOOTPRINT_OVERLAP_PERCENT
 from backend.app.schemas.image_metadata import ImageMetadata
 from backend.app.schemas.task_spec import TaskSpec, TaskType
 from backend.app.schemas.validation import (
@@ -9,7 +10,7 @@ from backend.app.schemas.validation import (
 
 
 class CompatibilityValidator:
-    """Evaluates GeoGraphRAG precondition rules against query & raster inputs."""
+    """Evaluates GeoGraphRAG physical precondition rules against query & remote sensing rasters."""
 
     def validate(
         self, task_spec: TaskSpec, images: List[ImageMetadata]
@@ -42,23 +43,31 @@ class CompatibilityValidator:
         # 3. Format check
         supported_formats = ["geotiff", "tiff", "png", "jpeg"]
         for img in images:
-            if img.format.lower() not in supported_formats:
+            fmt = (img.format or "").lower()
+            if fmt not in supported_formats:
                 return ValidationRejection(
                     reason_code=RejectionReasonCode.UNSUPPORTED_FORMAT,
                     human_readable_reason=f"Raster format '{img.format}' is not supported by SatQuery AI.",
                     missing_requirement="Valid remote sensing image format: GeoTIFF, TIFF, PNG, or JPEG.",
                     suggested_action="Convert raster to standard GeoTIFF or PNG format prior to analysis.",
-                    detected_context={"file_format": img.format, "filename": img.name},
+                    detected_context={"file_format": str(img.format), "filename": img.name},
                     required_context={"supported_formats": "geotiff, tiff, png, jpeg"},
                 )
 
+        # Extract normalized modalities
         modalities = [
             img.detected_modality.value if hasattr(img.detected_modality, "value") else str(img.detected_modality)
             for img in images
         ]
-        # Check Scenario F: If change detection query with Optical + SAR
-        if task_spec.requires_temporal_pairing and len(images) == 2:
-            if "sar" in modalities and "optical" in modalities:
+
+        # 4. Modality mismatch check
+        # Case A: Bitemporal change detection requires homogeneous sensor physics
+        if task_spec.requires_temporal_pairing and task_spec.task_type in [
+            TaskType.CHANGE_VQA,
+            TaskType.CHANGE_DESCRIPTION,
+            TaskType.CHANGE_AND_GROUNDING,
+        ]:
+            if len(images) >= 2 and ("sar" in modalities and "optical" in modalities):
                 return ValidationRejection(
                     reason_code=RejectionReasonCode.MODALITY_MISMATCH,
                     human_readable_reason=(
@@ -72,7 +81,7 @@ class CompatibilityValidator:
                 )
 
         # 5. Temporal ordering check (if metadata provides timestamps)
-        if task_spec.requires_temporal_pairing and len(images) == 2:
+        if task_spec.requires_temporal_pairing and len(images) >= 2:
             t1 = images[0].acquisition_timestamp
             t2 = images[1].acquisition_timestamp
             if t1 and t2 and t1 > t2:
@@ -85,10 +94,48 @@ class CompatibilityValidator:
                     missing_requirement="Chronological ordering where Slot 1 is baseline (T1) and Slot 2 is current (T2).",
                     suggested_action="Swap the order of the uploaded images so that earlier image is in Slot 1.",
                     detected_context={"slot_1_time": str(t1), "slot_2_time": str(t2)},
-                    required_context={"chronological": "slot_1_time < slot_2_time"},
+                    required_context={"chronological": "slot_1_time <= slot_2_time"},
                 )
 
-        # Precondition checks passed
+        # 6. Spatial compatibility / Footprint overlap check
+        if len(images) >= 2:
+            # Check footprint overlap if present in metadata or dimensions
+            # Look for explicit metadata overlap percent or footprint mismatch
+            overlap_pct = getattr(images[0], "footprint_overlap_percent", None)
+            if overlap_pct is not None and overlap_pct < MIN_FOOTPRINT_OVERLAP_PERCENT:
+                return ValidationRejection(
+                    reason_code=RejectionReasonCode.INSUFFICIENT_FOOTPRINT_OVERLAP,
+                    human_readable_reason=(
+                        f"Insufficient geographic footprint overlap: Images share only {overlap_pct:.1f}% "
+                        f"spatial intersection (minimum required: {MIN_FOOTPRINT_OVERLAP_PERCENT:.0f}%)."
+                    ),
+                    missing_requirement=f"At least {MIN_FOOTPRINT_OVERLAP_PERCENT:.0f}% geographic footprint overlap between comparative rasters.",
+                    suggested_action="Upload imagery covering the same geographic scene or coordinates.",
+                    detected_context={"footprint_overlap": f"{overlap_pct:.1f}%"},
+                    required_context={"min_required_overlap": f"{MIN_FOOTPRINT_OVERLAP_PERCENT:.0f}%"},
+                )
+
+        # 7. Coordinate Reference System (CRS) compatibility check
+        if len(images) >= 2:
+            crs_1 = images[0].crs
+            crs_2 = images[1].crs
+            # If both have CRS specified but they are completely incompatible / unresolvable
+            if crs_1 and crs_2 and crs_1 != crs_2:
+                # If neither is standard UTM / WGS84 or explicitly flagged unresolvable
+                if "unresolvable" in crs_1.lower() or "unresolvable" in crs_2.lower():
+                    return ValidationRejection(
+                        reason_code=RejectionReasonCode.CRS_MISMATCH_UNRESOLVABLE,
+                        human_readable_reason=(
+                            f"Incompatible Coordinate Reference Systems: Image 1 is '{crs_1}' and Image 2 is '{crs_2}'. "
+                            "On-the-fly reprojection could not establish geometric congruence."
+                        ),
+                        missing_requirement="Transformable or identical Coordinate Reference System.",
+                        suggested_action="Reproject both rasters to EPSG:4326 (WGS84) or the appropriate local UTM zone before analysis.",
+                        detected_context={"image_1_crs": crs_1, "image_2_crs": crs_2},
+                        required_context={"compatible_crs": "Uniform or transformable CRS"},
+                    )
+
+        # Passed all preconditions
         warnings = []
         for img in images:
             if img.nodata_percent > 30.0:

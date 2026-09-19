@@ -3,11 +3,11 @@ from backend.app.schemas.evidence import EvidenceItem
 from backend.app.schemas.image_metadata import ImageMetadata
 from backend.app.schemas.task_spec import TaskSpec, TaskType
 from backend.app.specialists.base import BaseSpecialist
-from backend.app.specialists.scenarios import get_scenario_grounding_boxes
+from backend.app.specialists.scenario_engine import scenario_engine
 
 
 class GroundingSpecialist(BaseSpecialist):
-    """Specialist adapter for Single-Image and Change Visual Grounding."""
+    """Scenario-aware Specialist Adapter for Visual Region Grounding."""
 
     def __init__(self):
         super().__init__(
@@ -27,9 +27,10 @@ class GroundingSpecialist(BaseSpecialist):
         **kwargs: Any
     ) -> EvidenceItem:
         query = task_spec.question_text or task_spec.target_object or ""
-        boxes = get_scenario_grounding_boxes(query)
+        scenario = scenario_engine.get_dynamic_result(query, task_spec.task_type, images)
+        boxes = scenario.boxes
 
-        # Check geometry bounds [0, 100]
+        # Verify geometric bounds [0, 100]
         valid_geometry = all(
             0.0 <= b.x_left <= 100.0 and
             0.0 <= b.y_top <= 100.0 and
@@ -41,7 +42,7 @@ class GroundingSpecialist(BaseSpecialist):
         )
 
         labels = [b.label for b in boxes if b.label]
-        answer = f"Grounding identified {len(boxes)} spatial features: {', '.join(labels)}."
+        answer = scenario.answer_text or f"Grounding localized {len(boxes)} features: {', '.join(labels)}."
 
         return EvidenceItem(
             source_specialist=self.name,

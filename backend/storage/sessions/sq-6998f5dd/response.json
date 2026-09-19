@@ -1,0 +1,141 @@
+{
+  "sessionId": "sq-6998f5dd",
+  "answerText": "Bitemporal change analysis between baseline (T1) and current (T2) acquisitions reveals significant infrastructure expansion: +14,200 sq m of new paved staging area and concrete foundations for a secondary crane rail along the eastern embankment. No structural demolition was detected.",
+  "evidence": {
+    "boxes": [
+      {
+        "id": "box_change_01",
+        "label": "New Pier & Crane Foundation Expansion",
+        "xLeft": 35.0,
+        "yTop": 22.0,
+        "xRight": 62.0,
+        "yBottom": 54.0,
+        "theta": 0.0,
+        "score": 0.95,
+        "isPrimary": true,
+        "normalizedTo100": true
+      },
+      {
+        "id": "box_change_02",
+        "label": "Cleared Staging Logistics Lot (+14,200 sq m)",
+        "xLeft": 68.0,
+        "yTop": 45.0,
+        "xRight": 88.5,
+        "yBottom": 72.0,
+        "theta": 0.0,
+        "score": 0.91,
+        "isPrimary": true,
+        "normalizedTo100": true
+      }
+    ],
+    "masks": [
+      "mask_layer_01.png"
+    ],
+    "regionTags": null,
+    "overlayImageUrls": [
+      "/storage/sessions/sq-6998f5dd/inputs/optical_2023.png",
+      "/storage/sessions/sq-6998f5dd/inputs/optical_2024.png"
+    ]
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Quantity discrepancy flagged: Text claims 14 targets but 2 spatial features localized.",
+    "details": {
+      "geometryCheck": true,
+      "crossToolAgreement": false,
+      "quantityDiscrepancy": true
+    }
+  },
+  "executionTrace": {
+    "sessionId": "sq-6998f5dd",
+    "selectedTaskType": "change_vqa",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "What infrastructure changes occurred between 2023 and 2024?"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'What infrastructure changes occurred between 2023 and 2024?'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 2,
+          "input_images": [
+            "optical_2023.png",
+            "optical_2024.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'change_vqa'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "ChangeVqaSpecialist",
+        "adapterIdOrVersion": "change_vqa_adapter_v1.0",
+        "parametersUsed": {
+          "task_type": "change_vqa"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Computed differential change: 158400 pixels changed",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 4,
+        "component": "VerifierNode",
+        "adapterIdOrVersion": "spatial_consistency_verifier_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Audited 2 spatial features, geometry constraints, and cross-tool consistency",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 5,
+        "component": "ConfidenceScorer",
+        "adapterIdOrVersion": "bayesian_confidence_scorer_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Calculated confidence tier based on verifier flags and sensor metadata",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 6,
+        "component": "ResponseComposer",
+        "adapterIdOrVersion": null,
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Assembled final grounded JSON payload with full audit trace",
+        "status": "completed"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Quantity discrepancy flagged: Text claims 14 targets but 2 spatial features localized.",
+    "rejection": null
+  },
+  "reportUrl": "/v1/session/sq-6998f5dd/report",
+  "rejected": false,
+  "rejectionReason": null,
+  "rejectionDetails": null,
+  "taskSpec": {
+    "taskType": "change_vqa",
+    "status": "resolved",
+    "targetObject": "buildings / infrastructure",
+    "questionText": "What infrastructure changes occurred between 2023 and 2024?",
+    "requiredImageCount": 2,
+    "requiredModalities": [
+      "optical",
+      "optical"
+    ],
+    "requiresTemporalPairing": true,
+    "requestedParameters": null,
+    "intentConfidence": 0.94,
+    "clarifyingQuestion": null
+  }
+}

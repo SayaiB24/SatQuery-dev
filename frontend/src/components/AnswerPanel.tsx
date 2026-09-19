@@ -22,12 +22,12 @@ export const AnswerPanel: React.FC<AnswerPanelProps> = ({
 
   return (
     <div style={{
-      background: 'rgba(12, 19, 36, 0.85)',
+      background: 'var(--bg-card)',
       border: '1px solid var(--border-medium)',
       borderRadius: 'var(--radius-lg)',
       padding: '20px 24px',
       marginBottom: 24,
-      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)'
+      boxShadow: 'var(--shadow-md)'
     }}>
       {/* Header bar */}
       <div style={{
@@ -46,12 +46,13 @@ export const AnswerPanel: React.FC<AnswerPanelProps> = ({
             background: 'linear-gradient(135deg, #0284c7 0%, #6366f1 100%)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            boxShadow: '0 2px 8px rgba(2, 132, 199, 0.3)'
           }}>
             <Bot size={18} color="#ffffff" />
           </div>
           <div>
-            <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: '#ffffff' }}>
+            <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
               Grounded Remote-Sensing Response
             </h3>
             {taskType && (
@@ -78,7 +79,7 @@ export const AnswerPanel: React.FC<AnswerPanelProps> = ({
         color: 'var(--text-muted)',
         marginBottom: 12,
         padding: '6px 12px',
-        background: 'rgba(255, 255, 255, 0.02)',
+        background: 'var(--bg-elevated)',
         borderRadius: 'var(--radius-sm)',
         display: 'flex',
         alignItems: 'center',

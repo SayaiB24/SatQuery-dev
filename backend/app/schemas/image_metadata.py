@@ -16,3 +16,4 @@ class ImageMetadata(CamelModel):
     cloud_mask_percent: Optional[float] = None
     preview_url: Optional[str] = None
     dimensions: Optional[Dict[str, int]] = None
+    footprint_overlap_percent: Optional[float] = None

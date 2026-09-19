@@ -26,7 +26,7 @@ export const Results: React.FC = () => {
           width: 56,
           height: 56,
           borderRadius: '50%',
-          background: 'rgba(56, 189, 248, 0.1)',
+          background: 'rgba(2, 132, 199, 0.1)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

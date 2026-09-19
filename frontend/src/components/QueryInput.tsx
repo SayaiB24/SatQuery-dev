@@ -27,7 +27,7 @@ export const QueryInput: React.FC = () => {
           gap: 6,
           fontSize: 13,
           fontWeight: 600,
-          color: '#ffffff'
+          color: 'var(--text-primary)'
         }}>
           <MessageSquare size={14} color="var(--cyan-primary)" />
           Natural-Language Query
@@ -59,16 +59,17 @@ export const QueryInput: React.FC = () => {
           rows={3}
           style={{
             width: '100%',
-            background: 'rgba(10, 16, 30, 0.9)',
+            background: 'var(--bg-input)',
             border: '1px solid var(--border-medium)',
             borderRadius: 'var(--radius-md)',
             padding: '14px 16px',
-            color: '#ffffff',
+            color: 'var(--text-primary)',
             fontFamily: 'var(--font-sans)',
             fontSize: 14,
             lineHeight: 1.5,
             resize: 'none',
             outline: 'none',
+            boxShadow: 'var(--shadow-sm)',
             transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
           }}
           onFocus={(e) => {
@@ -77,7 +78,7 @@ export const QueryInput: React.FC = () => {
           }}
           onBlur={(e) => {
             e.currentTarget.style.borderColor = 'var(--border-medium)';
-            e.currentTarget.style.boxShadow = 'none';
+            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
           }}
         />
       </div>
@@ -106,12 +107,13 @@ export const QueryInput: React.FC = () => {
               key={idx}
               onClick={() => setQuery(q)}
               style={{
-                background: query === q ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                border: query === q ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid var(--border-subtle)',
+                background: query === q ? 'rgba(2, 132, 199, 0.12)' : 'var(--bg-elevated)',
+                border: query === q ? '1px solid rgba(2, 132, 199, 0.4)' : '1px solid var(--border-subtle)',
                 color: query === q ? 'var(--cyan-primary)' : 'var(--text-secondary)',
                 borderRadius: 'var(--radius-full)',
                 padding: '4px 12px',
                 fontSize: 11,
+                fontWeight: 500,
                 transition: 'all 0.15s ease',
                 cursor: 'pointer'
               }}

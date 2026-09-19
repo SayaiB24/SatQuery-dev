@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Satellite,
   ArrowRight,
   ShieldCheck,
   Sparkles,
@@ -20,32 +19,17 @@ export const Home: React.FC = () => {
         margin: '0 auto 64px',
         padding: '24px 16px'
       }}>
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '6px 16px',
-          borderRadius: 'var(--radius-full)',
-          background: 'rgba(56, 189, 248, 0.1)',
-          border: '1px solid rgba(56, 189, 248, 0.3)',
-          marginBottom: 20
-        }}>
-          <Satellite size={14} color="var(--cyan-primary)" />
-          <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--cyan-primary)', letterSpacing: '0.04em' }}>
-            ISRO SIH26167 • OFFICIAL PROTOTYPE
-          </span>
-        </div>
 
         <h1 style={{
           fontSize: 48,
           lineHeight: 1.15,
           fontWeight: 800,
-          color: '#ffffff',
+          color: 'var(--text-primary)',
           marginBottom: 20,
           letterSpacing: '-0.03em'
         }}>
           Grounded Multimodal Intelligence for <span style={{
-            background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 100%)',
+            background: 'linear-gradient(135deg, #0284c7 0%, #6366f1 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>Earth Observation</span>
@@ -103,7 +87,7 @@ export const Home: React.FC = () => {
               width: 42,
               height: 42,
               borderRadius: 'var(--radius-md)',
-              background: 'rgba(56, 189, 248, 0.12)',
+              background: 'rgba(2, 132, 199, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -124,7 +108,7 @@ export const Home: React.FC = () => {
               width: 42,
               height: 42,
               borderRadius: 'var(--radius-md)',
-              background: 'rgba(99, 102, 241, 0.12)',
+              background: 'rgba(79, 70, 229, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -145,7 +129,7 @@ export const Home: React.FC = () => {
               width: 42,
               height: 42,
               borderRadius: 'var(--radius-md)',
-              background: 'rgba(16, 185, 129, 0.12)',
+              background: 'rgba(5, 150, 105, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -166,7 +150,7 @@ export const Home: React.FC = () => {
               width: 42,
               height: 42,
               borderRadius: 'var(--radius-md)',
-              background: 'rgba(245, 158, 11, 0.12)',
+              background: 'rgba(217, 119, 6, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -186,11 +170,12 @@ export const Home: React.FC = () => {
 
       {/* Mandatory Capability Matrix */}
       <section style={{
-        background: 'rgba(13, 20, 38, 0.65)',
+        background: 'var(--bg-card)',
         border: '1px solid var(--border-medium)',
         borderRadius: 'var(--radius-lg)',
         padding: 32,
-        marginBottom: 48
+        marginBottom: 48,
+        boxShadow: 'var(--shadow-md)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
           <div>
@@ -209,25 +194,25 @@ export const Home: React.FC = () => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
           gap: 16
         }}>
-          <div style={{ padding: 14, background: 'rgba(255, 255, 255, 0.02)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: 14, background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--cyan-primary)' }}>SINGLE-IMAGE</span>
             <h4 style={{ fontSize: 14, fontWeight: 600, margin: '4px 0 6px' }}>VQA & Captioning</h4>
             <p style={{ fontSize: 12, color: 'var(--text-secondary)', margin: 0 }}>Open-ended & closed-set VQA, multi-class LULC classification on optical/SAR imagery.</p>
           </div>
 
-          <div style={{ padding: 14, background: 'rgba(255, 255, 255, 0.02)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: 14, background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--indigo-primary)' }}>GROUNDING</span>
             <h4 style={{ fontSize: 14, fontWeight: 600, margin: '4px 0 6px' }}>Text-Guided Localization</h4>
             <p style={{ fontSize: 12, color: 'var(--text-secondary)', margin: 0 }}>Normalized bounding boxes with dedicated multi-candidate ambiguity protocol.</p>
           </div>
 
-          <div style={{ padding: 14, background: 'rgba(255, 255, 255, 0.02)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: 14, background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--emerald-success)' }}>BI-TEMPORAL</span>
             <h4 style={{ fontSize: 14, fontWeight: 600, margin: '4px 0 6px' }}>Change VQA & Masks</h4>
             <p style={{ fontSize: 12, color: 'var(--text-secondary)', margin: 0 }}>Siamese CEM attention, spatial change heatmaps, and deterministic pixel validation.</p>
           </div>
 
-          <div style={{ padding: 14, background: 'rgba(255, 255, 255, 0.02)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: 14, background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--amber-warning)' }}>CROSS-MODAL</span>
             <h4 style={{ fontSize: 14, fontWeight: 600, margin: '4px 0 6px' }}>Optical-SAR Fusion</h4>
             <p style={{ fontSize: 12, color: 'var(--text-secondary)', margin: 0 }}>Cloud penetration via radar backscatter, structural double-bounce corroboration.</p>
@@ -239,8 +224,8 @@ export const Home: React.FC = () => {
       <section style={{
         textAlign: 'center',
         padding: '36px 24px',
-        background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%)',
-        border: '1px solid rgba(56, 189, 248, 0.3)',
+        background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.12) 0%, rgba(79, 70, 229, 0.12) 100%)',
+        border: '1px solid rgba(2, 132, 199, 0.3)',
         borderRadius: 'var(--radius-lg)'
       }}>
         <h3 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8 }}>

@@ -1,0 +1,99 @@
+{
+  "sessionId": "sq-b7ded914",
+  "answerText": null,
+  "evidence": {
+    "boxes": [],
+    "masks": [],
+    "regionTags": null,
+    "overlayImageUrls": []
+  },
+  "confidence": {
+    "tier": "Low",
+    "rationale": "Physical precondition check failed: Task 'change_vqa' strictly requires 2 input images, but only 1 was uploaded.",
+    "details": null
+  },
+  "executionTrace": {
+    "sessionId": "sq-b7ded914",
+    "selectedTaskType": "change_vqa",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "component": "QueryInterpreter",
+        "adapterIdOrVersion": "intent_classifier_v1.0",
+        "parametersUsed": {
+          "query": "What infrastructure changes occurred between 2023 and 2024?"
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Parsed natural language query: 'What infrastructure changes occurred between 2023 and 2024?'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 2,
+        "component": "CompatibilityValidator",
+        "adapterIdOrVersion": "geographrag_preconditions_v1.0",
+        "parametersUsed": {
+          "required_image_count": 2,
+          "input_images": [
+            "optical_single.png"
+          ]
+        },
+        "wallClockMs": 42,
+        "outputSummary": "Evaluated physical preconditions for task 'change_vqa'",
+        "status": "completed"
+      },
+      {
+        "stepIndex": 3,
+        "component": "PreconditionGate",
+        "adapterIdOrVersion": "rejection_handler_v1.0",
+        "parametersUsed": {},
+        "wallClockMs": 42,
+        "outputSummary": "Analysis terminated: insufficient_image_count - Task 'change_vqa' strictly requires 2 input images, but only 1 was uploaded.",
+        "status": "rejected"
+      }
+    ],
+    "confidenceTier": "Low",
+    "confidenceRationale": "Execution halted by physical precondition validator.",
+    "rejection": {
+      "reasonCode": "insufficient_image_count",
+      "humanReadableReason": "Task 'change_vqa' strictly requires 2 input images, but only 1 was uploaded.",
+      "missingRequirement": "Requires 2 input rasters (e.g. bitemporal baseline T1 & T2 pair).",
+      "suggestedAction": "Upload a secondary image representing the comparative temporal acquisition or complementary sensor modality.",
+      "detectedContext": {
+        "image_count": "1"
+      },
+      "requiredContext": {
+        "required_image_count": "2"
+      }
+    }
+  },
+  "reportUrl": "/v1/session/sq-b7ded914/report",
+  "rejected": true,
+  "rejectionReason": "Task 'change_vqa' strictly requires 2 input images, but only 1 was uploaded.",
+  "rejectionDetails": {
+    "reasonCode": "insufficient_image_count",
+    "humanReadableReason": "Task 'change_vqa' strictly requires 2 input images, but only 1 was uploaded.",
+    "missingRequirement": "Requires 2 input rasters (e.g. bitemporal baseline T1 & T2 pair).",
+    "suggestedAction": "Upload a secondary image representing the comparative temporal acquisition or complementary sensor modality.",
+    "detectedContext": {
+      "image_count": "1"
+    },
+    "requiredContext": {
+      "required_image_count": "2"
+    }
+  },
+  "taskSpec": {
+    "taskType": "change_vqa",
+    "status": "resolved",
+    "targetObject": "buildings / infrastructure",
+    "questionText": "What infrastructure changes occurred between 2023 and 2024?",
+    "requiredImageCount": 2,
+    "requiredModalities": [
+      "optical",
+      "optical"
+    ],
+    "requiresTemporalPairing": true,
+    "requestedParameters": null,
+    "intentConfidence": 0.94,
+    "clarifyingQuestion": null
+  }
+}

@@ -5,7 +5,7 @@ import type { ImageMetadata, ImageFormat, Modality } from '../types/satquery';
 import { Upload, Plus } from 'lucide-react';
 
 export const ImageUploader: React.FC = () => {
-  const { image1, image2, setImage1, setImage2 } = useSatQuery();
+  const { image1, image2, setImage1, setImage2, setFile1, setFile2 } = useSatQuery();
   const fileInputRef1 = useRef<HTMLInputElement>(null);
   const fileInputRef2 = useRef<HTMLInputElement>(null);
 
@@ -36,8 +36,10 @@ export const ImageUploader: React.FC = () => {
     };
 
     if (slot === 1) {
+      setFile1(file);
       setImage1(newMetadata);
     } else {
+      setFile2(file);
       setImage2(newMetadata);
     }
   };
@@ -86,7 +88,7 @@ export const ImageUploader: React.FC = () => {
               minHeight: 280,
               border: '2px dashed var(--border-medium)',
               borderRadius: 'var(--radius-md)',
-              background: 'rgba(255, 255, 255, 0.02)',
+              background: 'var(--bg-elevated)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -101,7 +103,7 @@ export const ImageUploader: React.FC = () => {
               width: 48,
               height: 48,
               borderRadius: '50%',
-              background: 'rgba(56, 189, 248, 0.1)',
+              background: 'rgba(2, 132, 199, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -135,9 +137,9 @@ export const ImageUploader: React.FC = () => {
             style={{
               height: '100%',
               minHeight: 280,
-              border: '2px dashed rgba(255, 255, 255, 0.08)',
+              border: '2px dashed var(--border-medium)',
               borderRadius: 'var(--radius-md)',
-              background: 'rgba(255, 255, 255, 0.01)',
+              background: 'var(--bg-elevated)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

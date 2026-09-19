@@ -44,11 +44,12 @@ export const ConfidenceBadge: React.FC<ConfidenceBadgeProps> = ({
 
   return (
     <div style={{
-      background: 'rgba(12, 19, 36, 0.8)',
+      background: 'var(--bg-card)',
       border: `1px solid ${current.border}`,
       borderRadius: 'var(--radius-md)',
       padding: '16px 20px',
-      marginBottom: 20
+      marginBottom: 20,
+      boxShadow: 'var(--shadow-sm)'
     }}>
       <div style={{
         display: 'flex',
@@ -97,11 +98,11 @@ export const ConfidenceBadge: React.FC<ConfidenceBadgeProps> = ({
       {/* Rationale explanation */}
       <p style={{
         fontSize: 13,
-        color: '#ffffff',
+        color: 'var(--text-primary)',
         lineHeight: 1.5,
         margin: '0 0 12px',
         padding: '8px 12px',
-        background: 'rgba(255, 255, 255, 0.02)',
+        background: 'var(--bg-elevated)',
         borderRadius: 6,
         borderLeft: `3px solid ${current.color}`
       }}>

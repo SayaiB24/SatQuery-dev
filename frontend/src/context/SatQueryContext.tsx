@@ -42,6 +42,8 @@ interface SatQueryContextType {
     opticalSarFusion: boolean;
     compoundPipeline: boolean;
   };
+  setFile1: (file: File | null) => void;
+  setFile2: (file: File | null) => void;
   setImage1: (img: ImageMetadata | null) => void;
   setImage2: (img: ImageMetadata | null) => void;
   setQuery: (q: string) => void;
@@ -55,6 +57,8 @@ interface SatQueryContextType {
 const SatQueryContext = createContext<SatQueryContextType | undefined>(undefined);
 
 export const SatQueryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [file1, setFile1] = useState<File | null>(null);
+  const [file2, setFile2] = useState<File | null>(null);
   const [image1, setImage1] = useState<ImageMetadata | null>(DEMO_SCENARIOS[0].images[0].metadata);
   const [image2, setImage2] = useState<ImageMetadata | null>(null);
   const [query, setQuery] = useState<string>(DEMO_SCENARIOS[0].query);
@@ -95,6 +99,8 @@ export const SatQueryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const img1 = scenario.images.find((i) => i.slot === 1)?.metadata || null;
     const img2 = scenario.images.find((i) => i.slot === 2)?.metadata || null;
 
+    setFile1(null);
+    setFile2(null);
     setImage1(img1);
     setImage2(img2);
     setResults(null);
@@ -105,6 +111,8 @@ export const SatQueryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const resetSession = () => {
+    setFile1(null);
+    setFile2(null);
     setImage1(null);
     setImage2(null);
     setQuery('');
@@ -131,10 +139,14 @@ export const SatQueryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     try {
       const files: File[] = [];
-      if (image1) {
+      if (file1) {
+        files.push(file1);
+      } else if (image1) {
         files.push(new File([new Blob(['satquery_dummy_bytes'])], image1.name, { type: 'image/png' }));
       }
-      if (image2) {
+      if (file2) {
+        files.push(file2);
+      } else if (image2) {
         files.push(new File([new Blob(['satquery_dummy_bytes'])], image2.name, { type: 'image/png' }));
       }
       targetResponse = await analyzeRaster(query, files);
@@ -171,6 +183,8 @@ export const SatQueryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   return (
     <SatQueryContext.Provider
       value={{
+        setFile1,
+        setFile2,
         image1,
         image2,
         query,
